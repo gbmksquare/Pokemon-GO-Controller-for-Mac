@@ -20,17 +20,17 @@ class Favorite: NSObject, NSCoding {
     }
     
     required init?(coder aDecoder: NSCoder) {
-        let coordinateData = aDecoder.decodeObjectForKey("coordinate") as! NSData
-        self.coordinate = (NSUnarchiver.unarchiveObjectWithData(coordinateData) as! NSValue).MKCoordinateValue
-        self.name = aDecoder.decodeObjectForKey("name") as? String
+        let coordinateData = aDecoder.decodeObject(forKey: "coordinate") as! Data
+        self.coordinate = (NSUnarchiver.unarchiveObject(with: coordinateData) as! NSValue).mkCoordinateValue
+        self.name = aDecoder.decodeObject(forKey: "name") as? String
         super.init()
     }
     
-    func encodeWithCoder(aCoder: NSCoder) {
-        let coordinateValue = NSValue(MKCoordinate: coordinate)
-        let coordinateData = NSArchiver.archivedDataWithRootObject(coordinateValue)
-        aCoder.encodeObject(coordinateData, forKey: "coordinate")
-        aCoder.encodeObject(name, forKey: "name")
+    func encode(with aCoder: NSCoder) {
+        let coordinateValue = NSValue(mkCoordinate: coordinate)
+        let coordinateData = NSArchiver.archivedData(withRootObject: coordinateValue)
+        aCoder.encode(coordinateData, forKey: "coordinate")
+        aCoder.encode(name, forKey: "name")
     }
 }
 

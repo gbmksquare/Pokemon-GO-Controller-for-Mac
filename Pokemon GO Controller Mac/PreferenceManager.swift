@@ -12,11 +12,11 @@ import MapKit
 class PreferenceManager {
     static let defaultManager = PreferenceManager()
     
-    private let defaults = NSUserDefaults.standardUserDefaults()
+    fileprivate let defaults = UserDefaults.standard
     
-    var speed: Speed = Speed.Walk {
+    var speed: Speed = Speed.walk {
         didSet {
-            defaults.setDouble(speed.value, forKey: "speed")
+            defaults.set(speed.value, forKey: "speed")
             defaults.synchronize()
         }
     }
@@ -25,12 +25,12 @@ class PreferenceManager {
         didSet {
             // Save
             guard let userLocation = userLocation else {
-                defaults.removeObjectForKey("userLocation")
+                defaults.removeObject(forKey: "userLocation")
                 return
             }
-            let coordinateValue = NSValue(MKCoordinate: userLocation)
-            let coordinateData = NSArchiver.archivedDataWithRootObject(coordinateValue)
-            defaults.setObject(coordinateData, forKey: "userLocation")
+            let coordinateValue = NSValue(mkCoordinate: userLocation)
+            let coordinateData = NSArchiver.archivedData(withRootObject: coordinateValue)
+            defaults.set(coordinateData, forKey: "userLocation")
             defaults.synchronize()
             
             saveUserLocationToGpx()
@@ -41,33 +41,33 @@ class PreferenceManager {
         didSet {
             // Save
             guard let favorites = favorites else {
-                defaults.removeObjectForKey("favorites")
+                defaults.removeObject(forKey: "favorites")
                 return
             }
-            var favoritesData = [NSData]()
+            var favoritesData = [Data]()
             for favorite in favorites {
-                let favoriteData = NSKeyedArchiver.archivedDataWithRootObject(favorite)
+                let favoriteData = NSKeyedArchiver.archivedData(withRootObject: favorite)
                 favoritesData.append(favoriteData)
             }
-            defaults.setObject(favoritesData, forKey: "favorites")
+            defaults.set(favoritesData, forKey: "favorites")
             defaults.synchronize()
         }
     }
     
     // MARK: Initializer
     init() {
-        if let speed = Speed(value:defaults.doubleForKey("speed")) {
+        if let speed = Speed(value:defaults.double(forKey: "speed")) {
             self.speed = speed
         }
-        if let coordinateData = defaults.objectForKey("userLocation") as? NSData {
-            if let coordinateValue = NSUnarchiver.unarchiveObjectWithData(coordinateData) as? NSValue {
-                userLocation = coordinateValue.MKCoordinateValue
+        if let coordinateData = defaults.object(forKey: "userLocation") as? Data {
+            if let coordinateValue = NSUnarchiver.unarchiveObject(with: coordinateData) as? NSValue {
+                userLocation = coordinateValue.mkCoordinateValue
             }
         }
-        if let favoritesData = defaults.arrayForKey("favorites") as? [NSData] {
+        if let favoritesData = defaults.array(forKey: "favorites") as? [Data] {
             var favorites = [Favorite]()
             for favoriteData in favoritesData {
-                if let favorite = NSKeyedUnarchiver.unarchiveObjectWithData(favoriteData) as? Favorite {
+                if let favorite = NSKeyedUnarchiver.unarchiveObject(with: favoriteData) as? Favorite {
                     favorites.append(favorite)
                 }
             }
@@ -76,21 +76,21 @@ class PreferenceManager {
     }
     
     // MARK: Gpx
-    private func saveUserLocationToGpx() {
+    fileprivate func saveUserLocationToGpx() {
         guard let userLocation = userLocation else { return }
         GpxManager.saveGpxFile(userLocation.latitude, longitude: userLocation.longitude)
     }
     
     // MARK: Favorites
-    func addFavorite(coordinate coordinate: CLLocationCoordinate2D, name: String? = nil) {
+    func addFavorite(coordinate: CLLocationCoordinate2D, name: String? = nil) {
         let favorite = Favorite(coordinate: coordinate, name: name)
         favorites?.append(favorite)
     }
     
-    func removeFavorite(favorite: Favorite) {
+    func removeFavorite(_ favorite: Favorite) {
         guard let favorites = favorites else { return }
-        if let index = favorites.indexOf(favorite) {
-            self.favorites!.removeAtIndex(index)
+        if let index = favorites.index(of: favorite) {
+            self.favorites!.remove(at: index)
         }
     }
 }

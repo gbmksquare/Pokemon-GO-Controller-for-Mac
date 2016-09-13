@@ -9,36 +9,36 @@
 import Cocoa
 
 enum Speed: Int {
-    case Walk, Run, Cycle, Drive, Race
+    case walk, run, cycle, drive, race
     
     var value: Double {
         // meter per second
         switch self {
-        case .Walk: return 1.5
-        case .Run: return 5
-        case .Cycle: return 9
-        case .Drive: return 22
-        case .Race: return 35
+        case .walk: return 1.5
+        case .run: return 5
+        case .cycle: return 9
+        case .drive: return 22
+        case .race: return 35
         }
     }
     
     var jitter: Double {
         switch self {
-        case .Walk: return 0
-        case .Run: return 0
-        case .Cycle: return 0
-        case .Drive: return 1
-        case .Race: return 1.5
+        case .walk: return 0
+        case .run: return 0
+        case .cycle: return 0
+        case .drive: return 1
+        case .race: return 1.5
         }
     }
     
     init?(value: Double) {
         switch value {
-        case 1.5: self = .Walk
-        case 5: self = .Run
-        case 9: self = .Cycle
-        case 22: self = .Drive
-        case 35: self = .Race
+        case 1.5: self = .walk
+        case 5: self = .run
+        case 9: self = .cycle
+        case 22: self = .drive
+        case 35: self = .race
         default: return nil
         }
     }

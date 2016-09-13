@@ -9,7 +9,7 @@
 import Cocoa
 
 class UnitConverter {
-    private static let earthRadius = 6378000.0 // meter
+    fileprivate static let earthRadius = 6378000.0 // meter
     
     class func latitudeDegrees(fromMeter meter: Double) -> Double {
         return meter / earthRadius * (180 / M_PI)

@@ -9,12 +9,12 @@
 import Cocoa
 
 class GpxManager {
-    class func saveGpxFile(latitude: Double, longitude: Double) {
-        guard let filePath = NSSearchPathForDirectoriesInDomains(.DownloadsDirectory, .AllDomainsMask, true).first?.stringByAppendingString("/pokemon_location.gpx") else { return }
-        let fileUrl = NSURL.fileURLWithPath(filePath)
+    class func saveGpxFile(_ latitude: Double, longitude: Double) {
+        let filePath = (NSSearchPathForDirectoriesInDomains(.downloadsDirectory, .allDomainsMask, true).first)! + "/pokemon_location.gpx"
+        let fileUrl = URL(fileURLWithPath: filePath)
         let xmlContent = "<gpx creator=\"Xcode\" version=\"1.1\"><wpt lat=\"\(latitude)\" lon=\"\(longitude)\"><name>PokemonLocation</name></wpt></gpx>"
         do {
-            try xmlContent.writeToURL(fileUrl, atomically: true, encoding: NSUTF8StringEncoding)
+            try xmlContent.write(to: fileUrl, atomically: true, encoding: String.Encoding.utf8)
         } catch {
             print(error)
         }

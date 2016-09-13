@@ -10,21 +10,21 @@ import Cocoa
 import MapKit
 
 class Navigator {
-    private let sourceCoordinate: CLLocationCoordinate2D
-    private let destinationCoordinate: CLLocationCoordinate2D
-    private let transportType: MKDirectionsTransportType
+    fileprivate let sourceCoordinate: CLLocationCoordinate2D
+    fileprivate let destinationCoordinate: CLLocationCoordinate2D
+    fileprivate let transportType: MKDirectionsTransportType
     
-    private var route: MKRoute?
-    private var points: [MKMapPoint]?
+    fileprivate var route: MKRoute?
+    fileprivate var points: [MKMapPoint]?
     
-    private var stepStart: MKMapPoint?
-    private var stepEnd: MKMapPoint?
-    private var stepCount = -1
+    fileprivate var stepStart: MKMapPoint?
+    fileprivate var stepEnd: MKMapPoint?
+    fileprivate var stepCount = -1
     
-    private var speed = Speed.Walk
-    private var currentCoordinate: CLLocationCoordinate2D?
+    fileprivate var speed = Speed.walk
+    fileprivate var currentCoordinate: CLLocationCoordinate2D?
     
-    private var progressHandler: ((coordinate: CLLocationCoordinate2D) -> ())?
+    fileprivate var progressHandler: ((CLLocationCoordinate2D) -> ())?
     
     init(sourceCoordinate: CLLocationCoordinate2D, destinationCoordinate: CLLocationCoordinate2D, transportType: MKDirectionsTransportType) {
         self.sourceCoordinate = sourceCoordinate
@@ -32,7 +32,7 @@ class Navigator {
         self.transportType = transportType
     }
     
-    func findRoute(handler: (route: MKRoute?) -> ()) {
+    func findRoute(_ handler: @escaping (_ route: MKRoute?) -> ()) {
         let source = MKMapItem(placemark: MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: sourceCoordinate.latitude, longitude: sourceCoordinate.longitude), addressDictionary: nil))
         let destination = MKMapItem(placemark: MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: destinationCoordinate.latitude, longitude: destinationCoordinate.longitude), addressDictionary: nil))
         let request = MKDirectionsRequest()
@@ -41,15 +41,15 @@ class Navigator {
         request.requestsAlternateRoutes = false
         request.transportType = transportType
         let directions = MKDirections(request: request)
-        directions.calculateDirectionsWithCompletionHandler { [weak self] (response, error) in
+        directions.calculate { [weak self] (response, error) in
             guard let route = response?.routes.first else { return }
             self?.route = route
             self?.prepareForNavigation()
-            handler(route: response?.routes.first)
+            handler(response?.routes.first)
         }
     }
     
-    private func prepareForNavigation() {
+    fileprivate func prepareForNavigation() {
         guard let route = route else { return }
         let pointsPointer = route.polyline.points()
         var points = [MKMapPoint]()
@@ -60,18 +60,18 @@ class Navigator {
         self.points = points
     }
     
-    func startNavigation(speed speed: Speed, progress: ((coordinate: CLLocationCoordinate2D) -> ())?) {
+    func startNavigation(speed: Speed, progress: ((_ coordinate: CLLocationCoordinate2D) -> ())?) {
         self.speed = speed
         self.progressHandler = progress
         stepStart = points?.removeFirst()
         stepEnd = points?.removeFirst()
         guard let stepStart = stepStart else { return }
         currentCoordinate = MKCoordinateForMapPoint(stepStart)
-        progressHandler?(coordinate: currentCoordinate!)
+        progressHandler?(currentCoordinate!)
         moveAlongRoute()
     }
     
-    private func moveAlongRoute() {
+    fileprivate func moveAlongRoute() {
         guard let points = points else { return }
         guard let currentCoordinate = currentCoordinate else { return }
         guard let stepEnd = stepEnd else { return }
@@ -93,8 +93,8 @@ class Navigator {
         moveAlongStep()
     }
     
-    private func moveAlongStep() {
-        guard let startPoint = self.stepStart, endPoint = self.stepEnd else { return }
+    fileprivate func moveAlongStep() {
+        guard let startPoint = self.stepStart, let endPoint = self.stepEnd else { return }
         guard let currentCoordinate = currentCoordinate else { return }
         let currentMapPoint = MKMapPointForCoordinate(currentCoordinate)
         let meterPerMapPoint = MKMetersPerMapPointAtLatitude(currentCoordinate.latitude)
@@ -116,18 +116,18 @@ class Navigator {
         if stepCount == 0 {
             let finalCoordinate = MKCoordinateForMapPoint(endPoint)
             self.currentCoordinate = finalCoordinate
-            progressHandler?(coordinate: finalCoordinate)
+            progressHandler?(finalCoordinate)
             self.stepCount = -1
             self.moveAlongRoute()
             return
         } else {
             self.currentCoordinate = finalCoordinate
-            progressHandler?(coordinate: finalCoordinate)
+            progressHandler?(finalCoordinate)
         }
         stepCount -= 1
         
-        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(NSEC_PER_SEC))
-        dispatch_after(time, dispatch_get_main_queue()) { [weak self] in
+        let time = DispatchTime.now() + Double(Int64(NSEC_PER_SEC)) / Double(NSEC_PER_SEC)
+        DispatchQueue.main.asyncAfter(deadline: time) { [weak self] in
             self?.moveAlongStep()
         }
     }
