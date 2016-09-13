@@ -59,9 +59,10 @@ class WindowController: NSWindowController {
     }
     
     @IBAction func handleOpenPokeVision(_ sender: NSButton) {
-        guard let coordinate = viewController?.userLocation else { return }
-        let urlString = "https://pokevision.com/#/@\(coordinate.latitude),\(coordinate.longitude)"
-        guard let url = URL(string: urlString) else { return }
-        NSWorkspace.shared().open(url)
+        // PokéVision no longer functional.
+//        guard let coordinate = viewController?.userLocation else { return }
+//        let urlString = "https://pokevision.com/#/@\(coordinate.latitude),\(coordinate.longitude)"
+//        guard let url = URL(string: urlString) else { return }
+//        NSWorkspace.shared().open(url)
     }
 }

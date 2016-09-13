@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16A320" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
-        <plugIn identifier="com.apple.MapKitIBPlugin" version="10117"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11201"/>
+        <plugIn identifier="com.apple.MapKitIBPlugin" version="11201"/>
     </dependencies>
     <scenes>
         <!--Application-->
@@ -707,22 +707,6 @@
                                         </connections>
                                     </button>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="1443E895-6A3B-4572-8863-2939EF6C84C1" label="PokéVision" paletteLabel="PokéVision" id="qXf-sY-SGV">
-                                    <nil key="toolTip"/>
-                                    <size key="minSize" width="80" height="25"/>
-                                    <size key="maxSize" width="80" height="25"/>
-                                    <button key="view" verticalHuggingPriority="750" id="m4R-JC-fRk">
-                                        <rect key="frame" x="0.0" y="14" width="80" height="25"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <buttonCell key="cell" type="roundTextured" title="PokéVision" bezelStyle="texturedRounded" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="wq1-hQ-Fgy">
-                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="system"/>
-                                        </buttonCell>
-                                        <connections>
-                                            <action selector="handleOpenPokeVision:" target="B8D-0N-5wS" id="i3H-65-Yws"/>
-                                        </connections>
-                                    </button>
-                                </toolbarItem>
                                 <toolbarItem implicitItemIdentifier="0BE2A531-9E3A-4373-8F68-2027BCC714DA" label="Speed" paletteLabel="Speed" id="iMw-49-5J4">
                                     <nil key="toolTip"/>
                                     <size key="minSize" width="100" height="26"/>
@@ -793,7 +777,6 @@
                                 <toolbarItem reference="Pgp-Oe-JoK"/>
                                 <toolbarItem reference="zMf-qn-nd2"/>
                                 <toolbarItem reference="i2t-BV-X0v"/>
-                                <toolbarItem reference="qXf-sY-SGV"/>
                             </defaultToolbarItems>
                         </toolbar>
                     </window>
@@ -817,7 +800,7 @@
                             <mapView mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="rv6-si-xh5">
                                 <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                             </mapView>
-                            <visualEffectView appearanceType="vibrantLight" blendingMode="withinWindow" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="NIh-Z5-QWd">
+                            <visualEffectView appearanceType="vibrantLight" blendingMode="withinWindow" material="appearanceBased" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="NIh-Z5-QWd">
                                 <rect key="frame" x="418" y="229" width="52" height="31"/>
                                 <subviews>
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="H46-86-Xyv">
