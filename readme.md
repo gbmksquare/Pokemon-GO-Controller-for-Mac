@@ -20,7 +20,6 @@ This project is inspired by [Pokemon-Go-Controller](https://github.com/kahopoon/
 * Automatically move to destination.
 * Change speed of movement.
 * Change map type (Standard, Hybrid, Satellite).
-* Open current location in [PokéVision](https://pokevision.com).
 
 ## How to use
 
