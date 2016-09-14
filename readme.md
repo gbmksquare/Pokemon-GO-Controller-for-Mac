@@ -4,10 +4,10 @@ This project is inspired by [Pokemon-Go-Controller](https://github.com/kahopoon/
 
 ![Screenshot](Assets/Screenshot.png)
 
-## Requirements
+## Recommendation
 
-* Xcode 7.3
-* OS X El Capitan (10.11.6)
+* Xcode 8 (Swift 3)
+* macOS Sierra (10.12)
 * iOS device with Pokémon GO
 * It may work on other specifications, but not tested.
 
