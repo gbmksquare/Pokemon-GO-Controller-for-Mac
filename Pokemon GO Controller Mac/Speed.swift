@@ -13,10 +13,11 @@ enum Speed: Int {
     
     var value: Double {
         // meter per second
+        // Egg-hatch-safe speed is about 10.5 km/h
         switch self {
-        case .walk: return 1.5
-        case .run: return 5
-        case .cycle: return 9
+        case .walk: return 3
+        case .run: return 10
+        case .cycle: return 15
         case .drive: return 22
         case .race: return 35
         }
