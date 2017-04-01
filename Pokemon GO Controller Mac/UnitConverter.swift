@@ -12,10 +12,10 @@ class UnitConverter {
     fileprivate static let earthRadius = 6378000.0 // meter
     
     class func latitudeDegrees(fromMeter meter: Double) -> Double {
-        return meter / earthRadius * (180 / M_PI)
+        return meter / earthRadius * (180 / Double.pi)
     }
     
     class func longitudeDegress(fromMeter meter: Double, latitude: Double) -> Double {
-        return meter / earthRadius * (180 / M_PI) / cos(latitude * M_PI / 180)
+        return meter / earthRadius * (180 / Double.pi) / cos(latitude * Double.pi / 180)
     }
 }
